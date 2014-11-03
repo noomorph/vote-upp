@@ -1,0 +1,75 @@
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none !important;
+}
+
+#allPosts {
+    resize: none;
+    font-size: 12px;
+    border-radius: 5px;
+    border: #ccc solid 1px;
+    line-height: 14px;
+    height:100px;
+    overflow: scroll;
+}
+
+p{
+    margin:0;
+    padding:0;
+}
+
+.background {
+    fill: #FFFFFF;
+    fill-opacity: 0.01;
+}
+
+.component {
+    fill: #e1e1e1;
+}
+
+.component .label {
+    font-family: Myriad, "Helvetic Neue", Helvetica, Arial;
+    text-anchor: middle;
+    fill: #0000FF;
+}
+
+.arc {
+    stroke-weight:0.1;
+    fill: #4e8fff;
+}
+
+
+.arc2 {
+    stroke-weight:0.1;
+    fill: #3660b0;
+}
+
+
+.label {
+    font-family:  Myriad, "Helvetic Neue", Helvetica, Arial;
+    text-anchor: middle;
+}
+
+.radial-svg {
+    display: block;
+    margin: 0 auto;
+}
+
+#vote-circle {
+    width: 200px;
+    height: 200px;
+    box-sizing: border-box;
+}
+
+#vote-circle .arc {
+    stroke-weight: 0.1;
+    /* fill: #f0a417; */
+}
+
+.radial {
+    border-radius: 3px;
+    background: #FFFFFF;
+    color: #000;
+}

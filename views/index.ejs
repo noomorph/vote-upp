@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>VoteUpp!</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <link rel="stylesheet" href="css/core.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="jumbotron">
+                <h1>vote-upp</h1>
+                <p></p>
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 col-xs-6">
+                        <button id="vote-up">UP</button>
+                        <button id="vote-down">DOWN</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="vote-circle"></div>
+                </div>
+            </div>
+        </div>
+    
+        <script src="bower_components/d3/d3.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="js/concat.js"></script>
+    </body>
+</html>

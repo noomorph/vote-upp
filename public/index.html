@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>VoteUpp!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/core.css">
+</head>
+<body>
+    <header>
+        <h1>Чи можете ви дивитися у завтрашній день?</h1>
+    </header>
+    <section>
+        <div id="vote-circle"></div>
+    </section>
+    <footer>
+        <button class="vote left" id="vote-up">
+            <span>Так</span>
+        </button>
+        <button class="vote right" id="vote-down">
+            <span>Ні</span>
+        </button>
+    </footer>
+
+    <script src="bower_components/d3/d3.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/concat.js"></script>
+</body>
+</html>

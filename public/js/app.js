@@ -11,10 +11,12 @@ window.addEventListener('load', function () {
 
     var $voteUp = $('#vote-up'),
 		$voteDown = $('#vote-down'),
+		$voteCount = $('#vote-count'),
         $voteCircle = $('#vote-circle'),
         d3Circle = radialProgress($voteCircle),
         circleDiameter = $('section').offsetWidth,
-        percent = 0;
+        percent = 0,
+        all = 0;
 
     function resizeCircle() {
         circleDiameter = 300;
@@ -25,19 +27,19 @@ window.addEventListener('load', function () {
         style.marginLeft = r + 'px';
 
         d3Circle.diameter(circleDiameter).value(percent).render();
+        $voteCount.textContent = '' + all;
     }
 
     resizeCircle();
 
 	socket.on('stats', function (data) {
-        var all = ((+data.yes) + (+data.no));
+        all = ((+data.yes) + (+data.no));
         percent = Math.round(100 * (+data.yes) / all);
 
-        if (isNaN(percent)) {
-            percent = 0;
-        }
+        if (isNaN(percent)) { percent = 0; }
 
         percent = Math.max(0, Math.min(100, percent));
+        $voteCount.textContent = '' + all;
         d3Circle.value(percent).render();
 	});
 

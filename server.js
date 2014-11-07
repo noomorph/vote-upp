@@ -55,7 +55,7 @@ function emitStats() {
 }
 
 io.sockets.on('connection', function (socket) {
-    var ip = socket.handshake.address;
+    var ip = socket.handshake.address.address;
     console.log('IP:', ip);
     emitStats();
 

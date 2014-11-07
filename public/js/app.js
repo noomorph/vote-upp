@@ -43,10 +43,12 @@ window.addEventListener('load', function () {
 
     $voteUp.onclick = function () {
         socket.emit('vote', { direction: true });
+        $voteDown.style.display = 'none';
     };
 
     $voteDown.onclick = function () {
         socket.emit('vote', { direction: false });
+        $voteUp.style.display = 'none';
     };
 
     document.addEventListener('touchstart', function (e) {

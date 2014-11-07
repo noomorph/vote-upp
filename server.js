@@ -55,7 +55,8 @@ function emitStats() {
 }
 
 io.sockets.on('connection', function (socket) {
-    var ip = ""+Math.random(); //socket.handshake.address;
+    var ip = socket.handshake.address;
+    console.log('IP:', ip);
     emitStats();
 
 	socket.on('vote', function (data, fn) {
@@ -65,4 +66,4 @@ io.sockets.on('connection', function (socket) {
 	});
 });
 
-server.listen(runningPortNumber, "0.0.0.0");
+server.listen(runningPortNumber, '0.0.0.0');

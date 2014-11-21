@@ -3,7 +3,7 @@
 var moment = require('moment');
  
 var LIVERELOAD_PORT = 35729;
-var RUNNING_PORT = 8080; // <- if you change this, you need to change in public/js/app.js and recompile
+var RUNNING_PORT = 8081; // <- if you change this, you need to change in public/js/app.js and recompile
 var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
 var mountFolder = function (connect, dir) {
   return connect.static(require('path').resolve(dir));

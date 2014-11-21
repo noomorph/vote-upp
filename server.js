@@ -5,7 +5,7 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var device  = require('express-device');
-var runningPortNumber = 8080;
+var runningPortNumber = 8081;
 
 app.configure(function () {
 	app.use(express.static(__dirname + '/public'));

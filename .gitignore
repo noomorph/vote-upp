@@ -25,6 +25,11 @@ build/Release
 node_modules
 bower_components
 public/**/*.min.js
-public/**/concat.js
+public/app.js
+public/app.min.js
+public/app.css
+public/app.min.css
+public/vendor.js
+public/vendor.min.js
 
 .DS_Store

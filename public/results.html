@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>VoteUpp!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0">
+    <link rel="stylesheet" href="css/results.css">
+</head>
+<body>
+    <h1 id="question">
+        Which browser implements<br/>
+        most of ES6 features?
+    </h1>
+
+    <div id="chart">
+        <div class="ticks">
+            <hr/> <hr/>
+            <hr/> <hr/> <hr/>
+            <hr/> <hr/>
+        </div>
+        <div class="bars">
+            <div class="bar">
+                <i></i><label></label>
+            </div>
+            <div class="bar">
+                <i></i><label></label>
+            </div>
+            <div class="bar">
+                <i></i><label></label>
+            </div>
+            <div class="bar">
+                <i></i><label></label>
+            </div>
+            <div class="bar">
+                <i></i><label></label>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Voted: <span id="votes-count">0</span>
+    </footer>
+
+    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+    <script>
+        document.write('<script src="js/results.js"><\/script>');
+    </script>
+</body>
+</html>

@@ -1,7 +1,5 @@
 {
   "name": "vote-upp",
   "version": "0.0.0",
-  "dependencies": {
-    "d3": "~3.4.13"
-  }
+  "dependencies": { }
 }

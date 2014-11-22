@@ -1,5 +1,6 @@
 * {
-    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+         box-sizing: border-box;
 }
 
 html, body {
@@ -34,8 +35,12 @@ a, a:active, a:visited, a:hover {
 }
 
 #answers {
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
     margin-bottom: 1em;
 }
 
@@ -68,16 +73,24 @@ a, a:active, a:visited, a:hover {
 
 @media (orientation: landscape) {
     body {
+        display: -webkit-flex;
+        display: -ms-flexbox;
         display: flex;
-        align-items: center;
+        -webkit-align-items: center;
+            -ms-flex-align: center;
+                align-items: center;
     }
 
     #answers {
-        justify-content: center;
+        -webkit-justify-content: center;
+            -ms-flex-pack: center;
+                justify-content: center;
     }
 
     #answers a {
-        flex-grow: 1;
+        -webkit-flex-grow: 1;
+            -ms-flex-positive: 1;
+                flex-grow: 1;
         max-width: 25%;
         padding: 1em;
         text-align: center;
@@ -99,11 +112,15 @@ a, a:active, a:visited, a:hover {
 @media (orientation: portrait) {
 
 #answers {
-    flex-direction: column;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
 }
 
 #answers a {
-    flex-grow: 1;
+    -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
     margin: .25em 0;
     padding: 1em 2em;
     position: relative;

@@ -1,5 +1,5 @@
 * {
-	-moz-box-s999: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 	box-sizing: border-box;
 }
 
@@ -77,18 +77,15 @@ a, a:active, a:visited, a:hover {
 /* buttons */
 
 .button {
-	background-color: #3bb3e0;
+	background-color: rgb(228, 229, 215);
 	padding: 10px;
 	position: relative;
 	font-size: 12px;
 	text-decoration: none;
 	color: #111;
-	background-image: linear-gradient(bottom, rgb(228, 229, 215) 0%, rgb(228, 229, 215) 100%);
-
 	background-image: -o-linear-gradient(bottom, rgb(228, 229, 215) 0%, rgb(228, 229, 215) 100%);
-	background-image: -moz-linear-gradient(bottom, rgb(228, 229, 215) 0%, rgb(228, 229, 215) 100%);
+	background-image: linear-gradient(bottom, rgb(228, 229, 215) 0%, rgb(228, 229, 215) 100%);
 	background-image: -webkit-linear-gradient(bottom, rgb(228, 229, 215) 0%, rgb(228, 229, 215) 100%);
-	background-image: -ms-linear-gradient(bottom, rgb(228, 229, 215) 0%, rgb(228, 229, 215) 100%);
 	background-image: -webkit-gradient(
 			linear,
 			left bottom,
@@ -96,12 +93,8 @@ a, a:active, a:visited, a:hover {
 			color-stop(0, rgb(228, 229, 215)),
 			color-stop(1, rgb(228, 229, 215))
 	);
-	-webkit-box-shadow: inset 0px 1px 0px rgb(240, 239, 226), 0px 6px 0px #A6A498;
-	-moz-box-shadow: inset 0px 1px 0px rgb(240, 239, 226), 0px 6px 0px #A6A498;
 	-o-box-shadow: inset 0px 1px 0px rgb(240, 239, 226), 0px 6px 0px #A6A498;
 	box-shadow: inset 0px 1px 0px rgb(240, 239, 226), 0px 6px 0px #A6A498;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
 	-o-border-radius: 5px;
 	border-radius: 5px;
 }
@@ -119,12 +112,8 @@ a, a:active, a:visited, a:hover {
 	left: -2px;
 	top: 5px;
 	z-index: -1;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
 	-o-border-radius: 6px;
 	border-radius: 6px;
-	-webkit-box-shadow: 0px 1px 0px #fff;
-	-moz-box-shadow: 0px 1px 0px #fff;
 	-o-box-shadow: 0px 1px 0px #fff;
 	box-shadow: 0px 1px 0px #fff;
 }
@@ -136,8 +125,6 @@ a, a:active, a:visited, a:hover {
 	color: rgb(110, 110, 110);
 	text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.3);
 	background: rgb(228, 229, 215);
-	-webkit-box-shadow: inset 0px 1px 0px rgb(228, 229, 215), inset 0px -1px 0px rgb(228, 229, 215);
-	-moz-box-shadow: inset 0px 1px 0px rgb(228, 229, 215), inset 0px -1px 0px rgb(228, 229, 215);
 	-o-box-shadow: inset 0px 1px 0px rgb(228, 229, 215), inset 0px -1px 0px rgb(228, 229, 215);
 	box-shadow: inset 0px 1px 0px rgb(200, 200, 190), inset 0px -1px 0px rgb(228, 229, 215);
 	top: 7px;
@@ -195,7 +182,8 @@ a, a:active, a:visited, a:hover {
 	#answers a {
 		-webkit-flex: 1;
 		/*-ms-flex-positive: 1;*/
-		flex: 1;
+		-ms-flex: 1;
+		    flex: 1;
 		/*width: 25%;*/
 		padding: 1em;
 		text-align: center;

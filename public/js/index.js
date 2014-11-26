@@ -63,7 +63,7 @@ window.onload = function () {
             answers.appendChild(button);
         });
 
-        section.style.display = null;
+        section.style.display = 'block';
     }
 
     function clearButtons(revotable) {
@@ -88,14 +88,14 @@ window.onload = function () {
 
         if (key && p.yourAnswer !== key) {
             p.yourAnswer = key;
+            clearButtons(p.revotable);
+            button.className = 'button selected';
+
             socket.emit('vote', {
                 pollId: currentPoll.id,
                 key: key
             });
         }
-
-        clearButtons(p.revotable);
-        button.className = 'button selected';
     }
 
     answers.addEventListener('mousedown', function (e) {
@@ -107,9 +107,14 @@ window.onload = function () {
             } else if (e.target.parentNode.parentNode === answers) {
                 pressButton(e.target.parentNode);
             }
-
-            e.preventDefault();
         }
+
+        e.stopPropagation();
+    });
+
+    answers.addEventListener('click', function (e) {
+        e.preventDefault();
+        return false;
     });
 
     socket.on('newPoll', function (newPoll) {

@@ -5,27 +5,27 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var device  = require('express-device');
-var runningPortNumber = 8081;
+var runningPortNumber = 80;
 var polls = require(__dirname + '/data/polls.js');
-var currentPoll = null;
-var currentVotes = null;
+
+var defaultPoll = polls(0);
+defaultPoll.open();
+
+var currentPoll = defaultPoll;
 
 function setNewPoll(newPoll) {
     if (!newPoll) {
         return;
     }
 
-    if (currentPoll) {
+    if (currentPoll && !currentPoll.revotable) {
         currentPoll.close();
     }
 
     currentPoll = newPoll;
-    currentVotes = newPoll.countVotes();
     currentPoll.open();
     return true;
 }
-
-setNewPoll(polls(0));
 
 app.configure(function () {
     app.use(express.static(__dirname + '/public'));
@@ -49,10 +49,40 @@ app.use(function (req, res, next) {
 });
 
 app.get('/poll/open/:id', function (req, res) {
-    var success = setNewPoll(polls(req.params.id));
+    var success = false;
 
-    io.sockets.emit('newPoll', currentPoll.toVoter(''));
-    io.sockets.emit('pollStats', currentVotes);
+    console.dir(req);
+    if (req.query.auth === 'yarik') {
+        success = setNewPoll(polls(req.params.id));
+
+        if (success) {
+            io.sockets.clients().forEach(function (socket) {
+                var ip = socket.handshake.address.address;
+                socket.emit('newPoll', currentPoll.toVoter(ip));
+            });
+
+            io.sockets.emit('pollStats', currentPoll.countVotes());
+        }
+    } else {
+        console.log('auth', req.params.auth);
+    }
+
+    res.json({
+        success: !!success
+    });
+});
+
+app.get('/poll/close', function (req, res) {
+    var success = setNewPoll(defaultPoll);
+
+    if (success) {
+        io.sockets.clients().forEach(function (socket) {
+            var ip = socket.handshake.address.address;
+            socket.emit('newPoll', currentPoll.toVoter(ip));
+        });
+
+        io.sockets.emit('pollStats', currentPoll.countVotes());
+    }
 
     res.json({
         success: !!success
@@ -61,18 +91,26 @@ app.get('/poll/open/:id', function (req, res) {
 
 io.sockets.on('connection', function (socket) {
     var ip = socket.handshake.address.address;
-    socket.emit('newPoll', currentPoll.toVoter(ip));
-    socket.emit('pollStats', currentVotes);
+    var poll = currentPoll && currentPoll.canVote(ip) ? currentPoll : defaultPoll;
+
+    socket.emit('newPoll', poll.toVoter(ip));
+    socket.emit('pollStats', poll.countVotes());
 
     socket.on('vote', function (data) {
-        var pollId = data.pollId,
+        var pollId = +data.pollId,
+            poll = polls(pollId),
             key = data.key;
 
-        if (currentPoll.vote(pollId, ip, key)) {
-            currentVotes = currentPoll.countVotes();
-            io.sockets.emit('pollStats', currentVotes);
+        if (poll.vote(pollId, ip, key)) {
+            if (poll === currentPoll) {
+                io.sockets.emit('pollStats', currentPoll.countVotes());
+            }
         } else {
-            console.log('discarded vote', data);
+            console.log('reject vote');
+        }
+
+        if (!poll.canVote(ip)) {
+            socket.emit('newPoll', defaultPoll.toVoter(ip));
         }
     });
 });

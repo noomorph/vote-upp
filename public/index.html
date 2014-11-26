@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-<section>
+<section style="display: none">
     <h1 id="question">
         Будете участвовать в интерактивном голосовании?
     </h1>
@@ -38,11 +38,11 @@
 
     <div id="info">
         Your IP:
-        <span id="ip">127.0.0.1</span>
+        <span id="ip"></span>
     </div>
 </section>
 
-    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
-    <script src="js/index.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/index.js"></script>
 </body>
 </html>

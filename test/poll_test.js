@@ -63,8 +63,8 @@ describe('Poll', function () {
 
         it('uses answer values as ids if passed as an array', function () {
             expect(newPoll().answers).to.eql({
-                'Yes': 'Yes',
-                'No': 'No'
+                '1': { key: '1', name: 'Yes' },
+                '2': { key: '2', name: 'No' }
             });
         });
 
@@ -73,11 +73,11 @@ describe('Poll', function () {
         });
 
         it('accepts answers as object too', function () {
-            args.answers = {
-                'A': 'Yes',
-                'B': 'No',
-                'C': 'Maybe'
-            };
+            args.answers = [
+                { key: 'A', name: 'Yes' },
+                { key: 'B', name: 'No' },
+                { key: 'C', name: 'Maybe' }
+            ];
 
             expect(newPoll().answerIds).to.eql(['A', 'B', 'C']);
         });

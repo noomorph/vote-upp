@@ -6,64 +6,75 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var device  = require('express-device');
 var runningPortNumber = 8081;
+var polls = require(__dirname + '/data/polls.js');
+var currentPoll = null;
+var currentVotes = null;
+
+function setNewPoll(newPoll) {
+    if (!newPoll) {
+        return;
+    }
+
+    if (currentPoll) {
+        currentPoll.close();
+    }
+
+    currentPoll = newPoll;
+    currentVotes = newPoll.countVotes();
+    currentPoll.open();
+    return true;
+}
+
+setNewPoll(polls(0));
 
 app.configure(function () {
-	app.use(express.static(__dirname + '/public'));
+    app.use(express.static(__dirname + '/public'));
 
-	app.set('view engine', 'ejs');
-	app.set('views', __dirname + '/views');
+    app.set('view engine', 'ejs');
+    app.set('views', __dirname + '/views');
 
-	app.use(device.capture());
+    app.use(device.capture());
 });
 
 app.use(function (req, res, next) {
-	// output every request in the array
-	console.log({
+    // output every request in the array
+    console.log({
         method: req.method,
         url: req.url,
         device: req.device
     });
 
-	// goes onto the next function in line
-	next();
+    // goes onto the next function in line
+    next();
 });
 
-//app.get('/', function (req, res) {
-	//res.render('index', {});
-//});
+app.get('/poll/open/:id', function (req, res) {
+    var success = setNewPoll(polls(req.params.id));
 
-var votes = {};
+    io.sockets.emit('newPoll', currentPoll.toVoter(''));
+    io.sockets.emit('pollStats', currentVotes);
 
-function collectStats(result) {
-    var keys = Object.keys(votes),
-        sum = 0;
-
-    keys.map(function (key) {
-        if (votes[key] === result) {
-            sum++;
-        }
+    res.json({
+        success: !!success
     });
-
-    return sum;
-}
-
-function emitStats() {
-	io.sockets.emit('stats', {
-        yes: collectStats(true),
-        no:  collectStats(false)
-    });
-}
+});
 
 io.sockets.on('connection', function (socket) {
     var ip = socket.handshake.address.address;
-    console.log('IP:', ip);
-    emitStats();
+    socket.emit('newPoll', currentPoll.toVoter(ip));
+    socket.emit('pollStats', currentVotes);
 
-	socket.on('vote', function (data, fn) {
-        votes[ip] = data.direction;
-        emitStats();
-        if (fn) { fn(); }
-	});
+    socket.on('vote', function (data) {
+        var pollId = data.pollId,
+            key = data.key;
+
+        if (currentPoll.vote(pollId, ip, key)) {
+            currentVotes = currentPoll.countVotes();
+            io.sockets.emit('pollStats', currentVotes);
+        } else {
+            console.log('discarded vote', data);
+        }
+    });
 });
 
 server.listen(runningPortNumber, '0.0.0.0');

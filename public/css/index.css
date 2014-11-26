@@ -1,5 +1,5 @@
 * {
-	-moz-box-sizing: border-box;
+	-moz-box-s999: border-box;
 	box-sizing: border-box;
 }
 
@@ -82,7 +82,7 @@ a, a:active, a:visited, a:hover {
 	position: relative;
 	font-size: 12px;
 	text-decoration: none;
-	color: #fff;
+	color: #111;
 	background-image: linear-gradient(bottom, rgb(228, 229, 215) 0%, rgb(228, 229, 215) 100%);
 
 	background-image: -o-linear-gradient(bottom, rgb(228, 229, 215) 0%, rgb(228, 229, 215) 100%);

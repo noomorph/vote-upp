@@ -1,4 +1,6 @@
+/* global io */
 /* jshint browser: true */
+
 (function () {
     'use strict';
 
@@ -7,7 +9,7 @@
         'rgb(219, 83, 38)',
         'rgb(38, 200, 236)',
         'rgb(23, 119, 210)',
-        'rgb(200, 0, 0)',
+        'rgb(200, 0, 0)'
     ];
 
     function BarChart(view) {
@@ -16,29 +18,29 @@
         this.view = view;
         this.bars = [].slice.call(bars);
 
-        this.options = {};
+        this.answers = {};
     }
 
     BarChart.prototype.setPoll = function (poll) {
         document.getElementById('question').innerHTML = poll.question;
 
-        this.options = {};
-        poll.options.forEach(function (option, index) {
-            this.options[option.name] = option;
-            option.color = option.color || BAR_COLORS[index];
+        this.answers = {};
+        poll.answers.forEach(function (answer, index) {
+            this.answers[answer.key] = answer;
+            answer.color = answer.color || BAR_COLORS[index];
 
-            this.setBar({ count: 0, option: option.name }, index, 0);
+            this.setBar({ count: 0, key: answer.key }, index, 0);
         }, this);
     };
 
     var transformProperty;
 
-    if ("webkitTransform" in document.body.style) {
-        transformProperty = "webkitTransform";
-    } else if ("mozTransform" in document.body.style) {
-        transformProperty = "mozTransform";
+    if ('webkitTransform' in document.body.style) {
+        transformProperty = 'webkitTransform';
+    } else if ('mozTransform' in document.body.style) {
+        transformProperty = 'mozTransform';
     } else {
-        transformProperty = "transform";
+        transformProperty = 'transform';
     }
 
     BarChart.prototype.setBar = function (vote, index, max) {
@@ -53,13 +55,13 @@
         bar.style.display = vote ? null : 'none';
         if (!vote) { return; }
 
-        var option = this.options[vote.option];
+        var answer = this.answers[vote.key];
         var fraction = max > 0 ? vote.count / max : 0;
 
-        bar.dataset.label = option.name;
+        bar.dataset.label = answer.name;
         value.textContent = vote.count + '';
         value.style.height = Math.floor(100 * fraction) + '%';
-        indicator.style.backgroundColor = option.color;
+        indicator.style.backgroundColor = answer.color;
 
         indicator.style[transformProperty] = 'scale3d(1,' + fraction + ',1)';
     };
@@ -68,7 +70,7 @@
         var max = 0, sum = 0;
 
         votes = votes.filter(function (vote) {
-            return this.options.hasOwnProperty(vote.option);
+            return this.answers.hasOwnProperty(vote.key);
         }, this).sort(function (a, b) {
             return b.count - a.count;
         });
@@ -90,52 +92,19 @@
         document.getElementById('votes-count').textContent = sum;
     };
 
+    var socket = io.connect();
+    var bar = new BarChart(document.getElementById('chart'));
 
-    function demo() {
-        var bar = new BarChart(document.getElementById('chart')),
-            votes = [
-                { count: 0, option: 'Chrome' },
-                { count: 0, option: 'Firefox' },
-                { count: 0, option: 'IE' },
-                { count: 0, option: 'Safari' },
-                { count: 0, option: 'Opera' },
-            ];
+    socket.on('newPoll', function (newPoll) {
+        bar.setPoll(newPoll);
+    });
 
-        bar.setPoll({
-            question: 'Which browser implements<br/>most of ES6 features?',
-            options: [
-                { name: 'Chrome',  color: 'rgb(93, 188, 95)' },
-                { name: 'Firefox', color: 'rgb(219, 83, 38)' },
-                { name: 'IE',      color: 'rgb(38, 200, 236)' },
-                { name: 'Safari',  color: 'rgb(23, 119, 210)' },
-                { name: 'Opera',   color: 'rgb(200, 0, 0)' },
-            ]
+    socket.on('pollStats', function (stats) {
+        var keys = Object.keys(stats);
+        var votes = keys.map(function (key) {
+            return { count: stats[key], key: key };
         });
 
-        function vote() {
-            var rnd = Math.random();
-
-            if (rnd < 0) {
-            } else if (rnd < 0.4) {
-                votes[0].count++;
-            } else if (rnd < 0.7) {
-                votes[1].count++;
-            } else if (rnd < 0.9) {
-                votes[2].count++;
-            } else if (rnd < 0.95) {
-                votes[3].count++;
-            } else if (rnd < 1) {
-                votes[4].count++;
-            }
-
-            bar.updateValues(votes);
-        }
-
-        (function voteRandomly() {
-            vote();
-            setTimeout(voteRandomly, Math.random() * 3000);
-        }());
-    }
-
-    demo();
+        bar.updateValues(votes);
+    });
 }());

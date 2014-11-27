@@ -5,7 +5,7 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var device  = require('express-device');
-var runningPortNumber = 80;
+var runningPortNumber = process.env.PORT || 80;
 var polls = require(__dirname + '/data/polls.js');
 
 var defaultPoll = polls(0);

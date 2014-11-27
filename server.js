@@ -75,7 +75,8 @@ app.get('/poll/open/:id', function (req, res) {
     if (success) {
         io.sockets.clients().forEach(function (socket) {
             var ip = socket.handshake.address.address;
-            socket.emit('newPoll', currentPoll.toVoter(ip));
+            var poll = currentPoll.canVote(ip) ? currentPoll : defaultPoll;
+            socket.emit('newPoll', poll.toVoter(ip));
         });
 
         io.sockets.emit('pollStats', currentPoll.countVotes());
@@ -96,7 +97,8 @@ app.get('/poll/close', function (req, res) {
     if (success) {
         io.sockets.clients().forEach(function (socket) {
             var ip = socket.handshake.address.address;
-            socket.emit('newPoll', currentPoll.toVoter(ip));
+            var poll = currentPoll.canVote(ip) ? currentPoll : defaultPoll;
+            socket.emit('newPoll', poll.toVoter(ip));
         });
 
         io.sockets.emit('pollStats', currentPoll.countVotes());

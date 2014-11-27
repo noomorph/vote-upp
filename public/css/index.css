@@ -1,6 +1,7 @@
 * {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
 }
 
 html, body {
@@ -13,26 +14,18 @@ html, body {
 	padding: 0;
 }
 
-@font-face {
-	font-family: 'Lato';
-	font-style: normal;
-	font-weight: 400;
-	src: local('Lato Regular'), local('Lato-Regular'), url(../fonts/lato.ttf) format('truetype');
-}
-
 html {
 	background: #eee url(../img/squairy_light.png) repeat;
 }
 
 body {
+	font-family: 'Helvetica Neue', 'Roboto', 'Segoe WP', 'Segoe UI', 'Helvetica', 'Arial', sans-serif;
 	font-size: 16px;
 	color: rgb(70, 70, 70);
-	font-family: 'Lato', 'sans-serif';
 }
 
 section {
 	width: 100%;
-	/*padding: 1em;*/
 }
 
 a, a:active, a:visited, a:hover {
@@ -40,20 +33,18 @@ a, a:active, a:visited, a:hover {
 }
 
 #question {
-	margin-bottom: 1em;
+	margin: 0.75em;
 	font-size: 150%;
 	font-weight: 200;
 	text-align: center;
 }
 
 #answers {
-	display: -webkit-flex;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-flex-wrap: wrap;
-	-ms-flex-wrap: wrap;
-	flex-wrap: wrap;
-	margin: 0 1em 1em;
+	margin: 0 1em;
+}
+
+#answers a {
+    display: block;
 }
 
 #answers a > i {
@@ -67,7 +58,7 @@ a, a:active, a:visited, a:hover {
 	bottom: 0.3em;
 	width: 100%;
 	text-align: center;
-	font-size: 0.8em
+	font-size: 0.8em;
 }
 
 #info span {
@@ -80,10 +71,9 @@ a, a:active, a:visited, a:hover {
 	background-color: rgb(228, 229, 215);
 	padding: 10px;
 	position: relative;
-	font-size: 12px;
+	font-size: 0.8em;
 	text-decoration: none;
 	color: #111;
-	background-image: -o-linear-gradient(bottom, rgb(228, 229, 215) 0%, rgb(228, 229, 215) 100%);
 	background-image: linear-gradient(bottom, rgb(228, 229, 215) 0%, rgb(228, 229, 215) 100%);
 	background-image: -webkit-linear-gradient(bottom, rgb(228, 229, 215) 0%, rgb(228, 229, 215) 100%);
 	background-image: -webkit-gradient(
@@ -163,28 +153,21 @@ a, a:active, a:visited, a:hover {
 }
 
 @media (orientation: landscape) {
-	body {
-		display: -webkit-flex;
-		display: -ms-flexbox;
-		display: flex;
-		-webkit-align-items: center;
-		-ms-flex-align: center;
-		align-items: center;
-	}
-
-	#answers {
-		-webkit-justify-content: center;
-		-ms-flex-pack: center;
-		justify-content: center;
-
-	}
+    #answers {
+        display: box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        text-align: center;
+    }
 
 	#answers a {
-		-webkit-flex: 1;
-		/*-ms-flex-positive: 1;*/
-		-ms-flex: 1;
-		    flex: 1;
-		/*width: 25%;*/
+        display: inline-block;
+        min-width: 15%;
+        box-flex: 1;
+        -webkit-flex: 1;
+            -ms-flex: 1;
+                flex: 1;
 		padding: 1em;
 		text-align: center;
 		margin: 0 1em;
@@ -203,17 +186,11 @@ a, a:active, a:visited, a:hover {
 }
 
 @media (orientation: portrait) {
-
 	#answers {
-		-webkit-flex-direction: column;
-		-ms-flex-direction: column;
-		flex-direction: column;
+        display: block;
 	}
 
 	#answers a {
-		-webkit-flex-grow: 1;
-		-ms-flex-positive: 1;
-		flex-grow: 1;
 		margin: 0.8em 0.2em;
 		padding: 1em 2em;
 		position: relative;
@@ -226,59 +203,11 @@ a, a:active, a:visited, a:hover {
 		margin-right: 1em;
 		vertical-align: middle;
 	}
-
-}
-
-/* Smartphones (portrait and landscape) ----------- */
-@media only screen
-and (min-device-width: 320px)
-and (max-device-width: 480px) {
-
-}
-
-/* Smartphones (landscape) ----------- */
-@media only screen
-and (min-width: 321px) {
-	/* Styles */
-}
-
-/* Smartphones (portrait) ----------- */
-@media only screen
-and (max-width: 320px) {
-	/* Styles */
 }
 
 /* iPads (portrait and landscape) ----------- */
 @media only screen
-and (min-device-width: 768px)
-and (max-device-width: 1024px) {
-	/* Styles */
-}
-
-/* iPads (landscape) ----------- */
-@media only screen
-and (min-device-width: 768px)
-and (max-device-width: 1024px)
-and (orientation: landscape) {
-	/* Styles */
-}
-
-/* iPads (portrait) ----------- */
-@media only screen
-and (min-device-width: 768px)
-and (max-device-width: 1024px)
+and (min-device-height: 768px)
 and (orientation: portrait) {
-	/* Styles */
-}
-
-/* Desktops and laptops ----------- */
-@media only screen
-and (min-width: 1224px) {
-	/* Styles */
-}
-
-/* Large screens ----------- */
-@media only screen
-and (min-width: 1824px) {
-	/* Styles */
+    body { font-size: 24px; }
 }

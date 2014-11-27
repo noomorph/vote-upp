@@ -1,7 +1,7 @@
 /* global io */
 /* jshint browser: true */
 
-window.onload = function () {
+(function () {
     'use strict';
 
     var DEFAULT_COLORS = [
@@ -82,6 +82,7 @@ window.onload = function () {
 
     function pressButton(button) {
         var p = currentPoll,
+            pid = currentPoll.id,
             key;
 
         key = button.getAttribute('key');
@@ -91,14 +92,19 @@ window.onload = function () {
             clearButtons(p.revotable);
             button.className = 'button selected';
 
-            socket.emit('vote', {
-                pollId: currentPoll.id,
-                key: key
-            });
+            setTimeout(function () {
+                socket.emit('vote', {
+                    pollId: pid,
+                    key: key
+                });
+            }, p.revotable ? 0 : 1000);
         }
     }
 
-    answers.addEventListener('mousedown', function (e) {
+    var eventname = (document.documentElement && 'ontouchstart' in document.documentElement) ?
+        'touchstart' : 'mousedown';
+
+    answers.addEventListener(eventname, function (e) {
         var p = currentPoll;
 
         if (p && (p.revotable || !p.yourAnswer)) {
@@ -118,8 +124,7 @@ window.onload = function () {
     });
 
     socket.on('newPoll', function (newPoll) {
-        console.dir(newPoll);
         currentPoll = newPoll;
-        renderPoll();
+        renderPoll(newPoll);
     });
-};
+}());

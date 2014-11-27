@@ -6,6 +6,15 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var device  = require('express-device');
 var runningPortNumber = 80; //process.env.PORT || 80;
+var securityCode = process.argv[2];
+
+if (!securityCode) {
+    console.error('run with security code!!');
+    process.exit(-1);
+} else {
+    securityCode = securityCode.trim();
+}
+
 var polls = require(__dirname + '/data/polls.js');
 
 var defaultPoll = polls(0);
@@ -48,23 +57,28 @@ app.use(function (req, res, next) {
     next();
 });
 
+function validateRequest(req) {
+    if (!req) { return false; }
+    if (!req.query) { return false; }
+    if (req.query.auth !== securityCode) { return false; }
+
+    return true;
+}
+
 app.get('/poll/open/:id', function (req, res) {
-    var success = false;
+    var success = validateRequest(req);
 
-    console.dir(req);
-    if (req.query.auth === 'yarik') {
+    if (success) {
         success = setNewPoll(polls(req.params.id));
+    }
 
-        if (success) {
-            io.sockets.clients().forEach(function (socket) {
-                var ip = socket.handshake.address.address;
-                socket.emit('newPoll', currentPoll.toVoter(ip));
-            });
+    if (success) {
+        io.sockets.clients().forEach(function (socket) {
+            var ip = socket.handshake.address.address;
+            socket.emit('newPoll', currentPoll.toVoter(ip));
+        });
 
-            io.sockets.emit('pollStats', currentPoll.countVotes());
-        }
-    } else {
-        console.log('auth', req.params.auth);
+        io.sockets.emit('pollStats', currentPoll.countVotes());
     }
 
     res.json({
@@ -73,7 +87,11 @@ app.get('/poll/open/:id', function (req, res) {
 });
 
 app.get('/poll/close', function (req, res) {
-    var success = setNewPoll(defaultPoll);
+    var success = validateRequest(req);
+
+    if (success) {
+        success = setNewPoll(defaultPoll);
+    }
 
     if (success) {
         io.sockets.clients().forEach(function (socket) {

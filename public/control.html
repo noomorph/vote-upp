@@ -82,30 +82,32 @@
     var securityCode = prompt("Enter security code:", "", "").trim();
 	var links = document.querySelectorAll('a');
 
+    function openPoll() {
+        e.preventDefault();
+
+        var id = this;
+        var xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.open('GET', '/poll/open/'+ id + '?auth=' + securityCode, true);
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4) {
+                if (xmlhttp.status == 200 &&
+                    ~xmlhttp.responseText.indexOf("true")) {
+                    document.body.className = "ok";
+                } else {
+                    document.body.className = "error";
+                }
+            }
+
+            setTimeout(function () {
+                document.body.className = "";
+            }, 1000);
+        };
+        xmlhttp.send(null);
+    }
+
 	for (var i = 0; i < links.length; i++) {
-		links[i].addEventListener("click", function (e) {
-			e.preventDefault();
-
-			var id = this;
-			var xmlhttp = new XMLHttpRequest();
-
-			xmlhttp.open('GET', '/poll/open/'+ id + '?auth=' + securityCode, true);
-			xmlhttp.onreadystatechange = function() {
-				if (xmlhttp.readyState == 4) {
-					if (xmlhttp.status == 200 &&
-                        ~xmlhttp.responseText.indexOf("true")) {
-                        document.body.className = "ok";
-                    } else {
-                        document.body.className = "error";
-                    }
-				}
-                setTimeout(function () {
-                    document.body.className = "";
-                }, 1000);
-			};
-			xmlhttp.send(null);
-
-		}.bind(i), false);
+		links[i].addEventListener("click", openPoll.bind(i), false);
 	}
 
 </script>

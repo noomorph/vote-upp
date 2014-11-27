@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>VoteUpp Control!</title>
+    <meta name="msapplication-tap-highlight" content="no"/> 
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+
+	<style>
+        * { box-sizing: border-box; } 
+
+        body {
+            font-size: 18px;
+            font-family: 'Segoe WP', sans-serif;
+            text-transform: uppercase;
+            padding: 1em;
+            transition: 0.5s background-color ease;
+        }
+
+        .ok {
+            background-color: rgba(0, 255, 0, 0.5);
+        }
+
+        .error {
+            background-color: rgba(255, 0, 0, 0.5);
+        }
+
+        a, a:visited, a:hover {
+            background: #004;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        a, a:hover, a:active {
+            background: #448;
+        }
+
+        ul, li, a { width: 100%; }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+		li a {
+            display: block;
+            border: 1px solid #000;
+			padding: 10px;
+            margin: 0.5em 0;
+		}
+
+	</style>
+</head>
+<body>
+
+<ul>
+	<li>
+		<a href="#" data-id="1">1 open</a>
+	</li>
+
+	<li>
+		<a href="#" data-id="2">2 open</a>
+	</li>
+
+	<li>
+		<a href="#" data-id="23">23 open</a>
+	</li>
+	<li>
+		<a href="#" data-id="23">23 open</a>
+	</li>
+	<li>
+		<a href="#" data-id="23">23 open</a>
+	</li>
+	<li>
+		<a href="#" data-id="23">23 open</a>
+	</li>
+</ul>
+
+<script type="text/javascript">
+    var securityCode = prompt("Enter security code:", "", "").trim();
+	var links = document.querySelectorAll('a');
+
+	for (var i = 0; i < links.length; i++) {
+		links[i].addEventListener("click", function (e) {
+			e.preventDefault();
+
+			var id = this;
+			var xmlhttp = new XMLHttpRequest();
+
+			xmlhttp.open('GET', '/poll/open/'+ id + '?auth=' + securityCode, true);
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == 4) {
+					if (xmlhttp.status == 200 &&
+                        ~xmlhttp.responseText.indexOf("true")) {
+                        document.body.className = "ok";
+                    } else {
+                        document.body.className = "error";
+                    }
+				}
+                setTimeout(function () {
+                    document.body.className = "";
+                }, 1000);
+			};
+			xmlhttp.send(null);
+
+		}.bind(i), false);
+	}
+
+</script>
+
+</body>
+</html>

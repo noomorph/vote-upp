@@ -65,6 +65,18 @@ function validateRequest(req) {
     return true;
 }
 
+app.get('/winner', function (req, res) {
+    var ips = io.sockets.clients().map(function (socket) {
+        return socket.handshake.address.address;
+    });
+
+    var index = Math.floor(Math.random() * ips.length);
+
+    res.json({
+        ip: ips[index]
+    });
+});
+
 app.get('/poll/open/:id', function (req, res) {
     var success = validateRequest(req);
 

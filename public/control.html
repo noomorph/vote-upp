@@ -82,7 +82,7 @@
     var securityCode = prompt("Enter security code:", "", "").trim();
 	var links = document.querySelectorAll('a');
 
-    function openPoll() {
+    function openPoll(e) {
         e.preventDefault();
 
         var id = this;

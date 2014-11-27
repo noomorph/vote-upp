@@ -36,9 +36,6 @@ button {
   margin: 3vh 0 0;
   padding: 0;
   text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   max-height: 16vh;
 }
 
@@ -98,6 +95,7 @@ $ticks-offset: 6.3vh; // 0.1vh
 #chart .bar {
   border-bottom: .5vh solid #fff;
   min-width: 15%;
+  flex: 1;
   position: relative;
   text-align: center;
 }
@@ -112,9 +110,9 @@ $ticks-offset: 6.3vh; // 0.1vh
 #chart .bar > label {
   bottom: 0;
   display: block;
-  left: 1vw;
+  left: 3vw;
   position: absolute;
-  right: 1vw;
+  right: 3vw;
 }
 
 #chart .bar > i {

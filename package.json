@@ -24,10 +24,10 @@
     "poll"
   ],
   "dependencies": {
-    "express": "~3.4.6",
-    "express-device": "~0.3.7",
-    "socket.io": "~0.9.16",
-    "ejs": "~0.8.5"
+    "express": "~4.0.0",
+    "express-device": "~0.4.0",
+    "socket.io": "~1.0.1",
+    "ejs": "~2.5.5"
   },
   "devDependencies": {
     "bower": "~0.9.2",
@@ -40,7 +40,7 @@
     "gulp-uglify": "^1.0.1"
   },
   "engines": {
-      "node" : "~0.10"
+    "node": "~0.10"
   },
   "scripts": {
     "start": "node server.js",
